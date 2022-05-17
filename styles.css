@@ -36,9 +36,18 @@ body
     text-align: center;
     padding-bottom: 1vw;
     color: white;
-    border: outset;
-    border-color: grey;
-    border-width: 2px;
+    border-radius: 10px;
+    border-color: gray;
+    transition: transform ease 300ms;
+}
+#profile:hover
+{
+    border-width: 0px;
+    transform: translate(0, 0.5vw);
+    border-color: red;
+    -moz-box-shadow: 0 0 30px maroon;
+    -webkit-box-shadow: 0 0 30px red;
+    box-shadow: 0 0 20px red;
 }
 #navbar
 {
@@ -51,7 +60,12 @@ body
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-size: 2vw;
     font-weight: bold;
-
+    transition: transform ease 300ms;
+    color: white;
+}
+#homenav:hover
+{
+    color:red;
 }
 #shopnav
 {
@@ -60,6 +74,11 @@ body
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-size: 2vw;
     font-weight: bold;
+    color: white;
+}
+#shopnav:hover
+{
+    color: red;
 }
 #aboutnav
 {
@@ -68,6 +87,11 @@ body
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-size: 2vw;
     font-weight: bold;
+    color: white;
+}
+#aboutnav:hover
+{
+    color: red;
 }
 #contactnav
 {
@@ -75,6 +99,11 @@ body
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-size: 2vw;
     font-weight: bold;
+    color: white;
+}
+#contactnav:hover
+{
+    color:red;
 }
 #collections
 {
@@ -109,7 +138,18 @@ body
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-size: 2vw;
     color: white;
-    
+    border: solid 2px;
+    border-color: black;
+    border-radius: 15px;
+    transition: transform ease 300ms;    
+}
+#type:hover
+{
+    transform: translate(0, -1vw);
+    border-color: red;
+    -moz-box-shadow: 0 0 30px maroon;
+    -webkit-box-shadow: 0 0 30px red;
+    box-shadow: 0 0 20px red;
 }
 .typeimg
 {
@@ -229,6 +269,11 @@ body
     float: left;
     width: 9vw;
     height: 7vw;
+    transition: transform ease 300ms;
+}
+.connectimg1:hover
+{
+    transform: translate(0,-10px);
 }
 .connectimg
 {
@@ -240,6 +285,11 @@ body
     float: left;
     width: 8vw;
     height: 8vw;
+    transition: transform ease 300ms;
+}
+.connectimg:hover
+{
+    transform: translate(0,-10px);
 }
 #foot
 {
