@@ -56,6 +56,14 @@
 	<br>
 	<br>
 	<br>
+    <label for="gendr"><b>Gender</b></label>
+    <select name="gender" id="gendr">
+    <option value="male">Male</option>
+    <option value="female">Female</option>
+    </select>
+    <br>
+    <br>
+    <br>
     <label for="psw"><b>Password</b></label>
     <input type="password" placeholder="Enter Password" name="password" id="pass" required>
 	<br>
