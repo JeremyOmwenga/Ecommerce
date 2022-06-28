@@ -80,7 +80,7 @@ body
 	border: solid 3px white;
 	border-radius: 10px;
 	padding: 2vw;
-	margin-top: 2vw;
+	margin-top: 5vw;
 }
 .container:hover
 {
@@ -106,11 +106,17 @@ body
 }
 #gender
 {
-	margin-left: 2.5vw;
+    padding-left: 3vw;
+    padding-right: 3vw;
 }
 #pass
 {
 	margin-left: 0.5vw;
+}
+#usertype
+{
+    padding-left: 2vw;
+    padding-right: 2vw;
 }
 .registerbtn
 {
