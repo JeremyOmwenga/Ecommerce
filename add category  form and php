@@ -1,0 +1,89 @@
+<?php
+$mysql = new mysqli("localhost","root","","ecommerce");
+
+    $category =  $_REQUEST['category'];
+    $desc = $_REQUEST['desc'];
+
+    $sql = "INSERT INTO tbl_categories (category_name)
+    VALUES ('$category')";
+    if(mysqli_query($mysql, $sql))
+    {
+        echo "successfully added a category";
+    }
+    else
+    {
+        echo "ERROR: Not added. Try again."
+        .mysqli_error($mysql);
+    }
+         
+    mysqli_close($mysql);
+    
+?>
+---------------------------------------------------------
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="categorystyles.css">
+		 <link rel="icon" type="image/x-icon" href="images/favicon.png">
+        <style type="text/css">
+            a.nounderline{text-decoration: none;}
+        </style>
+        <title>DRIP 4 LESS - NEW CATEGORY</title>
+    </head>
+    <body onload="document.register.reset();"> 
+    <body>
+
+        <section id="headermain">
+
+        <span id="logo">
+        <img src="images/D4L-LOGO.jpg" alt="Store Logo" width="150px"  height="150px">
+        </span>
+        
+        <span id="spacer">
+            <p></p>
+        </span>
+        
+        <span id="header">
+            <h1>DRIP 4 LESS</h1>
+        </span>
+        
+        <span id="spacer">
+            <p></p>
+        </span>
+        
+        <span id="profile">
+            <p>PROFILE</p>
+            <a href="login.php" class="nounderline"  style="color: mediumslateblue">Log in</a>
+            <br>
+            <br>
+            <a href="register.php" class="nounderline" style="color: mediumslateblue">Sign up</a>
+        </span>
+    </section>
+
+    <form name="categorytype" action="addcategory.php" method="POST">
+        <div class="container">
+          <span><h1 id="addcategory">Add a category</h1></span>
+          <hr>
+      
+          <label for="category"><b>Name</b></label>
+          <input type="text" placeholder="Enter Category" name="category" id="category" required>
+          <br>
+          <br>
+          <br>
+          <label for="desc"><b>Description</b></label>
+          <input type="textarea" placeholder="Enter Description" name="desc" id="desc" required>
+          <br>
+          <br>
+          <br>
+
+        
+            <button type="submit" class="categorybtn">Add Category</button>
+        </div>
+    </form>
+
+    
+
+</body>
+</html>
