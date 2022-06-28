@@ -1,4 +1,41 @@
 <?php
+$mysql = new mysqli("localhost","root","","ecommerce");
+    $date= date('Y-m-d H:i:s');
+    $item =  $_REQUEST['item'];
+    $desc = $_REQUEST['desc'];
+    $subcategoryid =  $_REQUEST['subcategory'];
+    $price = $_REQUEST['price'];
+    $qty = $_REQUEST['qty'];
+    $addedby=1;
+    $filename=$_FILES["image"]["name"];
+    $tempname=$_FILES["image"]["tmp_name"];
+    $folder= "./image/" .$filename;
+    if(move_uploaded_file($tempname, $folder))
+    {
+        echo "<h3> Image uploaded successfully</h3>";
+    }
+    else
+    {
+        echo "<h3> Failed to upload image</h3>";
+    }
+
+    $sql = "INSERT INTO tbl_product (product_name, product_desc, product_image, unit_price, qty, subcategory_id, created_at, added_by)
+     VALUES ('$item','$desc','$filename','$price','$qty','$subcategoryid','$date','$addedby')";
+        
+        if(mysqli_query($mysql, $sql))
+        {
+            echo "successfully inserted into database.";
+        }
+        else
+        {
+            echo "ERROR: Not added. Try again"
+                . mysqli_error($mysql);
+        }
+         
+        mysqli_close($mysql);
+?>
+---------------------------------------------------------------------
+<?php
  $con = mysqli_connect("localhost","root","","ecommerce");
  $sql = "SELECT * FROM `tbl_subcategories`";
  $all_categories = mysqli_query($con,$sql);
