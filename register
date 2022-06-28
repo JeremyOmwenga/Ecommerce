@@ -9,7 +9,7 @@
         </style>
         <title>DRIP 4 LESS - SIGN UP</title>
     </head>
-
+    <body onload="document.register.reset();"> 
     <body>
 
         <section id="headermain">
@@ -41,8 +41,8 @@
         </span>
 
 		</section>
-		<form action="registerprocess.php" method="POST">
-  <div class="container">
+		<form name="register" action="registerprocess.php" method="POST">
+    <div class="container">
     <span><h1 id="register">Register</h1></span>
     <hr>
 
@@ -56,19 +56,29 @@
 	<br>
 	<br>
 	<br>
-    <label for="gendr"><b>Gender</b></label>
-    <select name="gender" id="gendr">
-    <option value="male">Male</option>
-    <option value="female">Female</option>
-    </select>
-    <br>
-    <br>
-    <br>
     <label for="psw"><b>Password</b></label>
     <input type="password" placeholder="Enter Password" name="password" id="pass" required>
 	<br>
 	<br>
 	<br>
+    <span id="gender">
+    <input type="radio" id="male" name="gender" value="male">
+    <label for="male">Male</label>
+    <input type="radio" id="female" name="gender" value="female">
+    <label for="female">Female</label>
+    </span>
+    <br>
+    <br>
+    <br>
+    <span id="usertype">
+    <input type="radio" id="admin" name="user" value="1">
+    <label for="admin">Admin</label>
+    <input type="radio" id="normal" name="user" value="2">
+    <label for="normal">Normal User</label>
+    </span>
+    <br>
+    <br>
+    <br>
     <button type="submit" class="registerbtn">Register</button>
 	<p>Already have an account? <a href="login.php" class="nounderline" >Sign in</a></p>
   </div>
