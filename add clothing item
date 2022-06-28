@@ -1,0 +1,105 @@
+<?php
+ $con = mysqli_connect("localhost","root","","ecommerce");
+ $sql = "SELECT * FROM `tbl_subcategories`";
+ $all_categories = mysqli_query($con,$sql);
+?>
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="clothingitemstyles.css">
+		 <link rel="icon" type="image/x-icon" href="images/favicon.png">
+        <style type="text/css">
+            a.nounderline{text-decoration: none;}
+        </style>
+        <title>DRIP 4 LESS - NEW CLOTHING ITEM</title>
+    </head>
+
+    <body>
+
+        <section id="headermain">
+
+        <span id="logo">
+        <img src="images/D4L-LOGO.jpg" alt="Store Logo" width="150px"  height="150px">
+        </span>
+        
+        <span id="spacer">
+            <p></p>
+        </span>
+        
+        <span id="header">
+            <h1>DRIP 4 LESS</h1>
+        </span>
+        
+        <span id="spacer">
+            <p></p>
+        </span>
+        
+        <span id="profile">
+            <p>PROFILE</p>
+            <a href="login.php" class="nounderline"  style="color: mediumslateblue">Log in</a>
+            <br>
+            <br>
+            <a href="register.php" class="nounderline" style="color: mediumslateblue">Sign up</a>
+        </span>
+    </section>
+    <php>
+
+    </php>
+    <form name="clothingtype" action="addclothingitem.php" method="POST" enctype="multipart/form-data">
+        <div class="container">
+          <span><h1 id="addclothingitem">Add a clothing item</h1></span>
+          <hr>
+      
+          <label for="item"><b>Name</b></label>
+          <input type="text" placeholder="Enter Name" name="item" id="item" required>
+          <br>
+          <br>
+          <br>
+          <label for="desc"><b>Description</b></label>
+          <input type="textarea" placeholder="Enter Description" name="desc" id="desc" required>
+          <br>
+          <br>
+          <br>
+          <label for="subcategory" id="subcategory"><b>Subcategory</b></label>
+          <select name="subcategory1">
+            <?php 
+                while ($subcategory = mysqli_fetch_array(
+                        $all_categories,MYSQLI_ASSOC)):; 
+            ?>
+                <option value="<?php echo $subcategory["subcategory_id"];
+                    // The value we usually set is the primary key
+                ?>">
+                    <?php echo $subcategory["subcategory_name"];
+                        // To show the category name to the user
+                    ?>
+                </option>
+            <?php 
+                endwhile; 
+            ?>
+        </select>
+          <br>
+          <br>
+          <br>
+          <label for="price"><b>Unit price</b></label>
+          <input type="number" placeholder="Enter Unit Price" name="price" id="price" required>
+          <br>
+          <br>
+          <br>
+          <label for="qty"><b>Quantity</b></label>
+          <input type="number" placeholder="Enter Quantity" name="qty" id="qty" required>
+          <br>
+          <br>
+          <br>
+          <label for="image">Image:</label>
+          <input type="file" name="image" id="image" accept="image/jpeg, image/png">
+          <br>
+          <br>
+          <br>
+        
+            <button type="submit" class="clothingaddbtn">Add Clothing item</button>
+        </div>
+    </form>
+</body>
+</html>
