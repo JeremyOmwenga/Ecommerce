@@ -1,41 +1,5 @@
 <?php
-$mysql = new mysqli("localhost","root","","ecommerce");
-    $date= date('Y-m-d H:i:s');
-    $item =  $_REQUEST['item'];
-    $desc = $_REQUEST['desc'];
-    $subcategoryid =  $_REQUEST['subcategory'];
-    $price = $_REQUEST['price'];
-    $qty = $_REQUEST['qty'];
-    $addedby=1;
-    $filename=$_FILES["image"]["name"];
-    $tempname=$_FILES["image"]["tmp_name"];
-    $folder= "./image/" .$filename;
-    if(move_uploaded_file($tempname, $folder))
-    {
-        echo "<h3> Image uploaded successfully</h3>";
-    }
-    else
-    {
-        echo "<h3> Failed to upload image</h3>";
-    }
-
-    $sql = "INSERT INTO tbl_product (product_name, product_desc, product_image, unit_price, qty, subcategory_id, created_at, added_by)
-     VALUES ('$item','$desc','$filename','$price','$qty','$subcategoryid','$date','$addedby')";
-        
-        if(mysqli_query($mysql, $sql))
-        {
-            echo "successfully inserted into database.";
-        }
-        else
-        {
-            echo "ERROR: Not added. Try again"
-                . mysqli_error($mysql);
-        }
-         
-        mysqli_close($mysql);
-?>
----------------------------------------------------------------------
-<?php
+session_start();
  $con = mysqli_connect("localhost","root","","ecommerce");
  $sql = "SELECT * FROM `tbl_subcategories`";
  $all_categories = mysqli_query($con,$sql);
@@ -46,11 +10,11 @@ $mysql = new mysqli("localhost","root","","ecommerce");
     <head>
         <meta charset="utf-8">
         <link rel="stylesheet" href="clothingitemstyles.css">
-		 <link rel="icon" type="image/x-icon" href="images/favicon.png">
+         <link rel="icon" type="image/x-icon" href="images/favicon.png">
         <style type="text/css">
             a.nounderline{text-decoration: none;}
         </style>
-        <title>DRIP 4 LESS - NEW CLOTHING ITEM</title>
+        <title>DRIP 4 LESS - CLOTHING STORE</title>
     </head>
 
     <body>
@@ -72,35 +36,36 @@ $mysql = new mysqli("localhost","root","","ecommerce");
         <span id="spacer">
             <p></p>
         </span>
-        
         <span id="profile">
             <p>PROFILE</p>
-            <a href="login.php" class="nounderline"  style="color: mediumslateblue">Log in</a>
+            <div class="ringring">
+            </div>
+            <br>
+            <?php
+                echo $_SESSION['USERNAME'];
+            ?>
             <br>
             <br>
-            <a href="register.php" class="nounderline" style="color: mediumslateblue">Sign up</a>
         </span>
     </section>
-    <php>
-
-    </php>
     <form name="clothingtype" action="addclothingitem.php" method="POST" enctype="multipart/form-data">
         <div class="container">
           <span><h1 id="addclothingitem">Add a clothing item</h1></span>
           <hr>
       
-          <label for="item"><b>Name</b></label>
+          <label for="item" >Name</label>
           <input type="text" placeholder="Enter Name" name="item" id="item" required>
           <br>
           <br>
           <br>
-          <label for="desc"><b>Description</b></label>
+        
+          <label for="desc">Description</label>
           <input type="textarea" placeholder="Enter Description" name="desc" id="desc" required>
           <br>
           <br>
           <br>
-          <label for="subcategory" id="subcategory"><b>Subcategory</b></label>
-          <select name="subcategory1">
+          <label for="subcategory1">Subcategory</label>
+          <select name="subcategory1" id="subcategory">
             <?php 
                 while ($subcategory = mysqli_fetch_array(
                         $all_categories,MYSQLI_ASSOC)):; 
@@ -119,17 +84,17 @@ $mysql = new mysqli("localhost","root","","ecommerce");
           <br>
           <br>
           <br>
-          <label for="price"><b>Unit price</b></label>
+          <label for="price">Unit price</label>
           <input type="number" placeholder="Enter Unit Price" name="price" id="price" required>
           <br>
           <br>
           <br>
-          <label for="qty"><b>Quantity</b></label>
+          <label for="qty">Quantity</label>
           <input type="number" placeholder="Enter Quantity" name="qty" id="qty" required>
           <br>
           <br>
           <br>
-          <label for="image">Image:</label>
+          <label for="image">Image</label>
           <input type="file" name="image" id="image" accept="image/jpeg, image/png">
           <br>
           <br>
@@ -140,3 +105,47 @@ $mysql = new mysqli("localhost","root","","ecommerce");
     </form>
 </body>
 </html>
+-------------------------------------------------------------------------------------------------------------------------------------------
+<?php
+session_start();
+$mysql = new mysqli("localhost","root","","ecommerce");
+    $date= date('Y-m-d H:i:s');
+    $item =  $_REQUEST['item'];
+    $desc = $_REQUEST['desc'];
+    $subcategory =  $_REQUEST['subcategory1'];
+    $price = $_REQUEST['price'];
+    $qty = $_REQUEST['qty'];
+    $addedby=$_SESSION['USERID'];
+    $filename=$_FILES["image"]["name"];
+    $tempname=$_FILES["image"]["tmp_name"];
+    $folder= "./image/" .$filename;
+    if(move_uploaded_file($tempname, $folder))
+    {
+        
+    }
+    else
+    {
+        
+    }
+
+    $sql = "INSERT INTO tbl_product (product_name, product_desc, product_image, unit_price, qty, subcategory_id, created_at, added_by)
+     VALUES ('$item','$desc','$filename','$price','$qty','$subcategory','$date','$addedby')";
+        
+        if(mysqli_query($mysql, $sql))
+        {
+            echo '<script>
+        alert("Successfully added a clothing item.");
+        window.location="http://localhost/ecommerce/adminpanel-alt.php";
+        </script>';
+        }
+        else
+        {
+            echo '<script>
+        alert("Error in adding item. Please try again.");
+        window.location="http://localhost/ecommerce/clothingitem.php";
+        </script>';
+         mysqli_error($mysql);
+        }
+         
+        mysqli_close($mysql);
+?>
