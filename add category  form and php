@@ -1,38 +1,19 @@
 <?php
-$mysql = new mysqli("localhost","root","","ecommerce");
-
-    $category =  $_REQUEST['category'];
-    $desc = $_REQUEST['desc'];
-
-    $sql = "INSERT INTO tbl_categories (category_name)
-    VALUES ('$category')";
-    if(mysqli_query($mysql, $sql))
-    {
-        echo "successfully added a category";
-    }
-    else
-    {
-        echo "ERROR: Not added. Try again."
-        .mysqli_error($mysql);
-    }
-         
-    mysqli_close($mysql);
-    
+session_start();
 ?>
----------------------------------------------------------
 <!DOCTYPE html>
 <html>
 
     <head>
         <meta charset="utf-8">
         <link rel="stylesheet" href="categorystyles.css">
-		 <link rel="icon" type="image/x-icon" href="images/favicon.png">
+         <link rel="icon" type="image/x-icon" href="images/favicon.png">
         <style type="text/css">
             a.nounderline{text-decoration: none;}
         </style>
-        <title>DRIP 4 LESS - NEW CATEGORY</title>
+        <title>DRIP 4 LESS - CLOTHING STORE</title>
     </head>
-    <body onload="document.register.reset();"> 
+
     <body>
 
         <section id="headermain">
@@ -52,17 +33,19 @@ $mysql = new mysqli("localhost","root","","ecommerce");
         <span id="spacer">
             <p></p>
         </span>
-        
         <span id="profile">
             <p>PROFILE</p>
-            <a href="login.php" class="nounderline"  style="color: mediumslateblue">Log in</a>
+            <div class="ringring">
+            </div>
+            <br>
+            <?php
+                echo $_SESSION['USERNAME'];
+            ?>
             <br>
             <br>
-            <a href="register.php" class="nounderline" style="color: mediumslateblue">Sign up</a>
         </span>
     </section>
-
-    <form name="categorytype" action="addcategory.php" method="POST">
+    <form name="categorytype" action="addcategory.php" method="post"enctype="multipart/form-data">
         <div class="container">
           <span><h1 id="addcategory">Add a category</h1></span>
           <hr>
@@ -77,13 +60,39 @@ $mysql = new mysqli("localhost","root","","ecommerce");
           <br>
           <br>
           <br>
-
-        
-            <button type="submit" class="categorybtn">Add Category</button>
+          <br>
+          <br>
+          <br>
+          <button type="submit" class="categorybtn">Add Category</button>
         </div>
     </form>
-
-    
-
 </body>
 </html>
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+<?php
+$mysql = new mysqli("localhost","root","","ecommerce");
+
+    $category =  $_REQUEST['category'];
+    $desc = $_REQUEST['desc'];
+    
+
+    $sql = "INSERT INTO tbl_categories (category_name)
+    VALUES ('$category')";
+    if(mysqli_query($mysql, $sql))
+    {
+        echo '<script>
+        alert("Successfully added a category.");
+        window.location="http://localhost/ecommerce/adminpanel-alt.php";
+        </script>';
+    }
+    else
+    {
+        echo '<script>
+        alert("An error occurred. Please try again.");
+        window.location="http://localhost/ecommerce/category.php";
+        </script>';
+        mysqli_error($mysql);
+    }
+         
+    mysqli_close($mysql);
+?>
