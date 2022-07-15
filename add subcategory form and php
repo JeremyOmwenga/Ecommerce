@@ -1,47 +1,20 @@
 <?php
-
-
-$mysql = new mysqli("localhost","root","","ecommerce");
-
-    $subcategory =  $_REQUEST['subcategory'];
-    $category = $_REQUEST['category1'];
-    
-
-
-    $sql = "INSERT INTO tbl_subcategories (subcategory_name, category)
-     VALUES ('$subcategory','$category')";
-        
-        if(mysqli_query($mysql, $sql))
-        {
-            echo "successfully added to database.";
-        }
-        else
-        {
-            echo "ERROR: Not added. Try again "
-                . mysqli_error($mysql);
-        }
-         
-        mysqli_close($mysql);
-
-?>      
-------------------------------------------------
-<?php
+session_start();
  $con = mysqli_connect("localhost","root","","ecommerce");
  $sql = "SELECT * FROM `tbl_categories`";
  $all_categories = mysqli_query($con,$sql);
 ?>
-
 <!DOCTYPE html>
 <html>
 
     <head>
         <meta charset="utf-8">
         <link rel="stylesheet" href="subcategorystyles.css">
-		 <link rel="icon" type="image/x-icon" href="images/favicon.png">
+         <link rel="icon" type="image/x-icon" href="images/favicon.png">
         <style type="text/css">
             a.nounderline{text-decoration: none;}
         </style>
-        <title>DRIP 4 LESS - NEW SUBCATEGORY</title>
+        <title>DRIP 4 LESS - CLOTHING STORE</title>
     </head>
 
     <body>
@@ -63,29 +36,30 @@ $mysql = new mysqli("localhost","root","","ecommerce");
         <span id="spacer">
             <p></p>
         </span>
-        
         <span id="profile">
             <p>PROFILE</p>
-            <a href="login.php" class="nounderline"  style="color: mediumslateblue">Log in</a>
+            <div class="ringring">
+            </div>
+            <br>
+            <?php
+                echo $_SESSION['USERNAME'];
+            ?>
             <br>
             <br>
-            <a href="register.php" class="nounderline" style="color: mediumslateblue">Sign up</a>
         </span>
     </section>
-    <form name="subcategorytype" action="addsubcategory.php" method="POST">
+    <form name="subcategorytype" action="addsubcategory.php" method="post"enctype="multipart/form-data">
         <div class="container">
-          <span><h1 id="addcategory">Add a subcategory</h1></span>
+          <span><h1 id="addsubcategory">Add a subcategory</h1></span>
           <hr>
       
           <label for="subcategory"><b>Name</b></label>
-          <input type="text" placeholder="Enter subcategory" name="subcategory" id="subcategory" required>
-
+          <input type="text" placeholder="Enter subcategory" name="subcategory" id="subcat" required>
           <br>
           <br>
           <br>
-
           <label for="category1"><b>Category</b></label>
-          <select name="category" id="category">
+          <select name="category1" id="category">
             <?php 
                 while ($category = mysqli_fetch_array(
                         $all_categories,MYSQLI_ASSOC)):; 
@@ -100,13 +74,45 @@ $mysql = new mysqli("localhost","root","","ecommerce");
             <?php 
                 endwhile; 
             ?>
+            </select>
+          <br>
+          <br>
+          <br>
+          <button type="submit" class="subcategorybtn">Add subcategory</button> 
+  </div>
+</form>
+    </body>
+    </html>
+    ------------------------------------------------------------------------------------------------------------------------------------------------------
+    <?php
+
+
+$mysql = new mysqli("localhost","root","","ecommerce");
+
+    $subcategory =  $_REQUEST['subcategory'];
+    $category = $_REQUEST['category1'];
+    
+
+
+    $sql = "INSERT INTO tbl_subcategories (subcategory_name, category)
+     VALUES ('$subcategory','$category')";
         
-          <br>
-          <br>
-          <br>
-        
-        <button type="submit" class="categorybtn">Add subcategory</button>
-        </div>
-    </form>
-</body>
-</html>
+        if(mysqli_query($mysql, $sql))
+        {
+             echo '<script>
+        alert("Successfully added a subcategory.");
+        window.location="http://localhost/ecommerce/adminpanel-alt.php";
+        </script>';
+        }
+        else
+        {
+           echo '<script>
+        alert("An error occurred. Please try again.");
+        window.location="http://localhost/ecommerce/subcategory.php";
+        </script>';
+        mysqli_error($mysql);
+        }
+         
+        mysqli_close($mysql);
+
+?>      
