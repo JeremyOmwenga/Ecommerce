@@ -1,0 +1,15 @@
+<?php
+session_start();
+$mysql = new mysqli("localhost","root","","ecommerce");
+$sql="UPDATE `tbl_userlogins` SET logout_time=now()";
+ session_destroy();
+if(mysqli_query($mysql,$sql))
+{
+        echo '<script>
+        alert("Successfully logged out.");
+        window.location="http://localhost/ecommerce/index.php";
+        </script>';
+}
+
+
+?>
