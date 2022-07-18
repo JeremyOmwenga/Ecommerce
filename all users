@@ -1,0 +1,108 @@
+<?php
+session_start();
+include 'database.php';
+?>
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="allproductsstyles.css">
+		 <link rel="icon" type="image/x-icon" href="images/favicon.png">
+         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <style type="text/css">
+            a.nounderline{text-decoration: none;}
+        </style>
+        <title>DRIP 4 LESS - CLOTHING STORE</title>
+    </head>
+
+    <body>
+
+        <section id="headermain">
+
+        <span id="logo">
+        <img src="images/D4L-LOGO.jpg" alt="Store Logo" width="150px"  height="150px">
+        </span>
+        
+        <span id="spacer">
+            <p></p>
+        </span>
+        
+        <span id="header">
+            <h1>DRIP 4 LESS</h1>
+        </span>
+        
+        <span id="spacer">
+            <p></p>
+        </span>
+        <span id="profile">
+            <p>PROFILE</p>
+            <div class="ringring">
+			</div>
+            <br>
+            <?php
+                echo $_SESSION['USERNAME'];
+            ?>
+            <br>
+            <br>
+        </span>
+        <section class="table">
+            <div class="container">
+                <table>
+                <thead>
+				<tr>
+                <th>USER ID</th>
+                    <th>USERNAME</th>
+					<th>NUMBER</th>
+					<th>EMAIL</th>
+					<th>GENDER</th>
+					<th>PASSWORD</th>
+					<th>ROLE</th>
+                    <th>STATUS</th>
+                    <th>ACTION</th>
+                    
+				</tr>
+			</thead>
+			<tbody>
+            <?php
+			$result = mysqli_query($conn,"SELECT * FROM tbl_users");
+				$i=1;
+				while($row = mysqli_fetch_array($result)) {
+			?>
+			<td><?php echo $row["user_id"]; ?></td>
+                <td><?php echo $row["username"]; ?></td>
+				<td><?php echo $i; ?></td>
+                <td><?php echo $row["email"]; ?></td>
+				<td><?php echo $row["gender"]; ?></td>
+				<td><?php echo $row["password"]; ?></td>
+                <?php 
+                if($row["role"]==1)
+                {
+                    $privilege='ADMIN';
+                }
+                else
+                {
+                    $privilege='NORMAL USER';
+                }
+                ?>
+                <td><?php echo $privilege;?></td>
+                <td><?php echo $row["is_deleted"]; ?>(Active)</td>
+				<td>
+                    <?php
+                    $id=$row["user_id"];
+                    ?>
+					<a href="edit-user.php?id=<?php echo $id?>" class="edit" data-toggle="modal">
+						<i class="material-icons update" data-toggle="tooltip" 
+						title="Edit" data-id="<?php echo $row["user_id"]; ?>"></i>
+					</a>
+					<a href="deleteuser.php?id=<?php echo $id?>" class="delete" data-id="<?php echo $row["user_id"]; ?>" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" 
+						title="Delete"></i></a>
+				</td>
+			</tr>
+			<?php
+			$i++;
+			}
+			?>
+			</tbody>
+		</table>
+
+
