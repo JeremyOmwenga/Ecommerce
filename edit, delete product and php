@@ -1,0 +1,187 @@
+<?php
+include 'database.php';
+session_start();
+$id=$_GET['id'];
+echo $id;
+$result = mysqli_query($conn,"SELECT * FROM tbl_product WHERE product_id='$id'");
+while ($row = mysqli_fetch_array($result)) {
+    $prod_data= array('prodid'=>$row['product_id'], 'prodname'=>$row['product_name'],'proddesc'=>$row['product_desc'], 'img'=>$row['product_image'], 'price'=>$row['unit_price'], 'qty'=>$row['qty'],'subid'=>$row['subcategory_id']); // assignment
+}
+$pid=$prod_data['prodid'];
+$pname=$prod_data['prodname'];
+$pdesc=$prod_data['proddesc'];
+$pimg=$prod_data['img'];
+$pprice=$prod_data['price'];
+$pqty=$prod_data['qty'];
+$psubid=$prod_data['subid'];
+ $con = mysqli_connect("localhost","root","","ecommerce");
+ $sql = "SELECT * FROM `tbl_subcategories`";
+ $all_categories = mysqli_query($con,$sql);
+?>
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="editproductstyles.css">
+         <link rel="icon" type="image/x-icon" href="images/favicon.png">
+        <style type="text/css">
+            a.nounderline{text-decoration: none;}
+        </style>
+        <title>DRIP 4 LESS - CLOTHING STORE</title>
+    </head>
+
+    <body>
+
+        <section id="headermain">
+
+        <span id="logo">
+        <img src="images/D4L-LOGO.jpg" alt="Store Logo" width="150px"  height="150px">
+        </span>
+        
+        <span id="spacer">
+            <p></p>
+        </span>
+        
+        <span id="header">
+            <h1>DRIP 4 LESS</h1>
+        </span>
+        
+        <span id="spacer">
+            <p></p>
+        </span>
+        <span id="profile">
+            <p>PROFILE</p>
+            <div class="ringring">
+            </div>
+            <br>
+            <?php
+                echo $_SESSION['USERNAME'];
+            ?>
+            <br>
+            <br>
+        </span>
+    </section>
+    <form name="clothingtype" action="editproduct.php" method="POST" enctype="multipart/form-data">
+        <div class="container">
+          <span><h1 id="addclothingitem">Add a clothing item</h1></span>
+          <hr>
+          <input type="hidden" name="pid" value="<?php echo $pid?>">
+          <label for="item" >Name</label>
+          <input type="text" placeholder="Enter Name" name="item" id="item" value="<?php echo $pname?>"required>
+          <br>
+          <br>
+          <br>
+        
+          <label for="desc">Description</label>
+          <input type="textarea" placeholder="Enter Description" name="desc" id="desc" value="<?php echo $pdesc?>"required>
+          <br>
+          <br>
+          <br>
+          <label for="subcategory1">Subcategory</label>
+          <select name="subcategory1" id="subcategory">
+            <?php 
+                while ($subcategory = mysqli_fetch_array(
+                        $all_categories,MYSQLI_ASSOC)):; 
+            ?>
+                <option value="<?php echo $subcategory["subcategory_id"];
+                    // The value we usually set is the primary key
+                ?>" selected="selected">
+                    <?php echo $subcategory["subcategory_name"];
+                        // To show the category name to the user
+                    ?>
+                </option>
+            <?php 
+                endwhile; 
+            ?>
+        </select>
+          <br>
+          <br>
+          <br>
+          <label for="price">Unit price</label>
+          <input type="number" placeholder="Enter Unit Price" name="price" id="price" value="<?php echo $pprice?>"required>
+          <br>
+          <br>
+          <br>
+          <label for="qty">Quantity</label>
+          <input type="number" placeholder="Enter Quantity" name="qty" id="qty" value="<?php echo $pqty?>"required>
+          <br>
+          <br>
+          <br>
+          <label for="image">Image</label>
+          <input type="file" name="image" id="image" accept="image/jpeg, image/png" value="<?php echo $pimg?>">
+          <br>
+          <br>
+          <br>
+        
+            <button type="submit" class="clothingaddbtn">Save</button>
+        </div>
+    </form>
+</body>
+</html>
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+<?php
+session_start();
+$mysql = new mysqli("localhost","root","","ecommerce");
+    $date= date('Y-m-d H:i:s');
+    $item =  $_REQUEST['item'];
+    $pid =  $_REQUEST['pid'];
+    $desc = $_REQUEST['desc'];
+    $subcategory =  $_REQUEST['subcategory1'];
+    $price = $_REQUEST['price'];
+    $qty = $_REQUEST['qty'];
+    $addedby=$_SESSION['USERID'];
+    $filename=$_FILES["image"]["name"];
+    $tempname=$_FILES["image"]["tmp_name"];
+    $folder= "./image/" .$filename;
+    if(move_uploaded_file($tempname, $folder))
+    {
+        
+    }
+    else
+    {
+        
+    }
+    $sql = "UPDATE tbl_product SET product_name='$item', product_desc='$desc', subcategory_id='$subcategory', unit_price='$price' , qty='$qty' WHERE product_id='$pid'";
+        
+        if(mysqli_query($mysql, $sql))
+        {
+            echo '<script>
+        alert("Successfully edited product.");
+        window.location="http://localhost/ecommerce/adminpanel-alt.php";
+        </script>';
+            
+        }
+         else
+        {
+            echo '<script>
+        alert("Editing failed. Please try again.");
+        window.location="http://localhost/ecommerce/adminpanel-alt.php";
+        </script>';
+        }
+         
+        mysqli_close($mysql);
+
+?>
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+<?php
+include 'database.php';
+session_start();
+$id=$_GET['id'];
+$del="DELETE FROM tbl_product WHERE product_id='$id'";
+if(mysqli_query($conn, $del))
+    {
+        echo '<script>
+        alert("Successfully deleted product.");
+        window.location="http://localhost/ecommerce/adminpanel-alt.php";
+        </script>';
+    }
+    else
+    {
+        echo '<script>
+        alert("An error occurred. Please try again.");
+        window.location="http://localhost/ecommerce/allusers.php";
+        </script>';
+        mysqli_error($mysql);
+    }
+?>
