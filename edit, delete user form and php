@@ -1,0 +1,158 @@
+<?php
+include 'database.php';
+session_start();
+$id=$_GET['id'];
+echo $id;
+$result = mysqli_query($conn,"SELECT * FROM tbl_users WHERE user_id='$id'");
+while ($row = mysqli_fetch_array($result)) {
+    $user_data= array('userid'=>$row['user_id'], 'email'=>$row['email'],'uname'=>$row['username'], 'gender'=>$row['gender'], 'pswd'=>$row['password'], 'role'=>$row['role']); // assignment
+}
+$uid=$user_data['userid'];
+$uemail=$user_data['email'];
+$uname=$user_data['uname'];
+$ugender=$user_data['gender'];
+$upass=$user_data['pswd'];
+$urole=$user_data['role'];
+?>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="registerstyles.css">
+     <link rel="icon" type="image/x-icon" href="images/favicon.png">
+    <style type="text/css">
+        a.nounderline{text-decoration: none;}
+    </style>
+    <title>DRIP 4 LESS - SIGN UP</title>
+</head>
+<body onload="document.register.reset();"> 
+<body>
+
+    <section id="headermain">
+
+    <span id="logo">
+    <img src="images/D4L-LOGO.jpg" alt="Store Logo" width="150px"  height="150px">
+    </span>
+    
+    <span id="spacer">
+        <p></p>
+    </span>
+    
+    <span id="header">
+        <h1>DRIP 4 LESS</h1>
+    </span>
+    
+    <span id="spacer">
+        <p></p>
+    </span>
+    
+    <span id="profile">
+    <p>PROFILE</p>
+            <div class="ringring">
+			</div>
+            <br>
+            <?php
+                echo $_SESSION['USERNAME'];
+            ?>
+            <br>
+            <br>
+
+    </section>
+    <form name="register" action="edituser.php" method="POST">
+<div class="container">
+<span><h1 id="register">Register</h1></span>
+<hr>
+<input type="hidden" name="userid" value="<?php echo $uid?>">
+<label for="email"><b>Email</b></label>
+<input type="text" placeholder="Enter Email" name="email" id="email" value="<?php echo $uemail?>"required>
+<br>
+<br>
+<br>
+<label for="username"><b>Username</b></label>
+<input type="text" placeholder="Enter Username" name="username" id="uname" value="<?php echo $uname?>" required>
+<br>
+<br>
+<br>
+<label for="psw"><b>Password</b></label>
+<input type="text" placeholder="Enter Password" name="password" id="pass" value="<?php echo $upass?>"required>
+<br>
+<br>
+<br>
+<span id="gender">
+<input type="radio" id="male" name="gender" value="male">
+<label for="male">Male</label>
+<input type="radio" id="female" name="gender" value="female">
+<label for="female">Female</label>
+</span>
+<br>
+<br>
+<br>
+<span id="usertype">
+<input type="radio" id="admin" name="user" value="1"required>
+<label for="admin">Admin</label>
+<input type="radio" id="normal" name="user" value="2">
+<label for="normal">Normal User</label>
+</span>
+<br>
+<br>
+<br>
+<button type="submit" class="registerbtn">Save </button>
+
+</div>
+</form>
+</body>
+</html>
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+<?php
+
+$mysql = new mysqli("localhost","root","","ecommerce");
+    $userid=$_REQUEST['userid'];
+    $email =  $_REQUEST['email'];
+    $username = $_REQUEST['username'];
+    $gender =  $_REQUEST['gender'];
+    $password = $_REQUEST['password'];
+    $user = $_REQUEST['user'];
+
+    $sql = "UPDATE tbl_users SET email='$email', username='$username', gender='$gender', password='$password' , role='$user' WHERE user_id='$userid'";
+        
+        if(mysqli_query($mysql, $sql))
+        {
+            echo '<script>
+        alert("Successfully edited user.");
+        window.location="http://localhost/ecommerce/adminpanel-alt.php";
+        </script>';
+            
+        }
+         else
+        {
+            echo '<script>
+        alert("Registration failed. Please try again.");
+        window.location="http://localhost/ecommerce/adminpanel-alt.php";
+        </script>';
+        }
+         
+        mysqli_close($mysql);
+
+?>
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+<?php
+include 'database.php';
+session_start();
+$id=$_GET['id'];
+$del="DELETE FROM tbl_users WHERE user_id='$id'";
+if(mysqli_query($conn, $del))
+    {
+        echo '<script>
+        alert("Successfully deleted user.");
+        window.location="http://localhost/ecommerce/adminpanel-alt.php";
+        </script>';
+    }
+    else
+    {
+        echo '<script>
+        alert("An error occurred. Please try again.");
+        window.location="http://localhost/ecommerce/allusers.php";
+        </script>';
+        mysqli_error($mysql);
+    }
+?>
