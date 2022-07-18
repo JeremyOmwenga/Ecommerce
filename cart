@@ -1,0 +1,97 @@
+<?php
+session_start();
+$proddetails=$_SESSION["cart"];
+?>
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="cartstyles.css">
+         <link rel="icon" type="image/x-icon" href="images/favicon.png">
+        <style type="text/css">
+            a.nounderline{text-decoration: none;}
+        </style>
+        <title>DRIP 4 LESS - CLOTHING STORE</title>
+    </head>
+
+    <body>
+
+        <section id="headermain">
+
+        <span id="logo">
+        <img src="images/D4L-LOGO.jpg" alt="Store Logo" width="150px"  height="150px">
+        </span>
+        
+        <span id="spacer">
+            <p></p>
+        </span>
+        
+        <span id="header">
+            <h1>DRIP 4 LESS</h1>
+        </span>
+        
+        <span id="spacer">
+            <p></p>
+        </span>
+        <span id="profile">
+            <p>PROFILE</p>
+            <div class="ringring">
+            </div>
+            <br>
+            <?php
+                echo $_SESSION['USERNAME'];
+            ?>
+            <br>
+            <br>
+        </span>
+    </section>
+    <p id="carttitle">CART</p>
+    <table>
+        <thead>
+            <tr>
+                <th>PID</th>
+                <th>NAME</th>
+                <th>PRICE</th>
+                <th>QUANTITY</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            foreach($proddetails as $product)
+            {
+                ?>
+                <td><?php echo $product?></td>
+            <?php
+            }
+            ?>
+                <td>
+                <form name="qty" action="order.php" method="post" enctype="multipart/form-data">
+                <label for="quantity"></label><input type="number" name="quantity">
+                </form>
+        </td>
+        </tbody>
+        </table>
+        <button class="confirm" type="submit"> <a href="order.php">Confirm order</a></button>
+        </body>
+        </html>
+------------------------------------------------------------------------------------------------------------------------------------------------------
+<?php
+include 'database.php';
+session_start();
+$id=$_GET['id'];
+$result = mysqli_query($conn,"SELECT product_id, product_name, unit_price FROM tbl_product WHERE product_id='$id'");
+while ($row = mysqli_fetch_array($result)) {
+    $prod_data= array('prodid'=>$row['product_id'], 'prodname'=>$row['product_name'], 'price'=>$row['unit_price']); // assignment
+}
+$userid=$id;
+$pid=$prod_data['prodid'];
+$pname=$prod_data['prodname'];
+$pprice=$prod_data['price'];
+$_SESSION["cart"]=$prod_data;
+echo '<script>
+        alert("Successfully added to cart.");
+        window.location="http://localhost/ecommerce/userproducts.php";
+        </script>';
+?>
+
