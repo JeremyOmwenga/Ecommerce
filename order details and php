@@ -1,0 +1,111 @@
+<?php
+session_start();
+include 'database.php';
+?>
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="orderdetailsstyles.css">
+		 <link rel="icon" type="image/x-icon" href="images/favicon.png">
+         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <style type="text/css">
+            a.nounderline{text-decoration: none;}
+        </style>
+        <title>DRIP 4 LESS - CLOTHING STORE</title>
+    </head>
+
+    <body>
+
+        <section id="headermain">
+
+        <span id="logo">
+        <img src="images/D4L-LOGO.jpg" alt="Store Logo" width="150px"  height="150px">
+        </span>
+        
+        <span id="spacer">
+            <p></p>
+        </span>
+        
+        <span id="header">
+            <h1>DRIP 4 LESS</h1>
+        </span>
+        
+        <span id="spacer">
+            <p></p>
+        </span>
+        <span id="profile">
+            <p>PROFILE</p>
+            <div class="ringring">
+			</div>
+            <br>
+            <?php
+                echo $_SESSION['USERNAME'];
+            ?>
+            <br>
+            <br>
+        </span>
+    </section>
+        <section class="table">
+            <div class="container">
+                <table>
+                <thead>
+				<tr>
+                <th>ORDER ID</th>
+                    <th>USER ID</th>
+					<th>PRODUCT ID</th>
+					<th>TOTAL</th>
+				</tr>
+			</thead>
+			<tbody>
+            <?php
+			$result = mysqli_query($conn,"SELECT * FROM tbl_order");
+				while($row = mysqli_fetch_array($result)) {
+			?>
+			 <td><?php echo $row["order_id"]; ?></td>
+                <td><?php echo $row["user_id"]; ?></td>
+				<td><?php echo $row["product_id"]; ?></td>
+                <td><?php echo $row["total"]; ?></td>
+            </tr>
+            <?php
+        }
+        ?>
+            </tbody>
+        </table>
+    </div>
+</section>
+</body>
+</html>
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+<?php
+include 'database.php';
+session_start();
+$username=$_SESSION['USERNAME'];
+$product=$_SESSION['cart'];
+$result = mysqli_query($conn,"SELECT user_id FROM tbl_users WHERE username='$username'");
+while ($row = mysqli_fetch_array($result)) {
+    $user_data= array('userid'=>$row['user_id']); // assignment
+}
+$uid=$user_data['userid'];
+$pid=$product['prodid'];
+$pname=$product['prodname'];
+$pprice=$product['price'];
+echo $quantity=$_SESSION['qty'];
+$sql="INSERT INTO tbl_order(user_id, product_id, total) VALUES ('$uid','$pid','$pprice')";
+if(mysqli_query($conn, $sql))
+{
+echo '<script>
+        alert("Successfully confirmed order.");
+        window.location="http://localhost/ecommerce/userindex.php";
+        </script>';
+}
+else
+{
+  echo '<script>
+        alert("Please try again.");
+        window.location="http://localhost/ecommerce/userproducts.php";
+        </script>';
+}
+?>
+---------------------------------------------------------------------------------------------------------------------------------------------------------
