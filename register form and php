@@ -85,3 +85,45 @@
 </form>
 	</body>
 </html>
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+<?php
+
+$mysql = new mysqli("localhost","root","","ecommerce");
+
+    $email =  $_REQUEST['email'];
+    $username = $_REQUEST['username'];
+    $gender =  $_REQUEST['gender'];
+    $password = $_REQUEST['password'];
+    $user = $_REQUEST['user'];
+
+    $sql = "INSERT INTO tbl_users (email, username, gender, password, role)
+     VALUES ('$email','$username','$gender','$password','$user')";
+        
+        if(mysqli_query($mysql, $sql))
+        {
+            if($user==1)
+            {
+                $usertype = "Admin";
+            }
+            else
+            {
+                $usertype = "Normal user";
+            }
+            echo '<script>
+        alert("Successfully registered. Login to proceed.");
+        window.location="http://localhost/ecommerce/login.php";
+        </script>';
+            
+        }
+         else
+        {
+            echo '<script>
+        alert("Registration failed. Please try again.");
+        window.location="http://localhost/ecommerce/register.php";
+        </script>';
+        }
+         
+        mysqli_close($mysql);
+
+?>
