@@ -1,0 +1,82 @@
+<?php
+session_start();
+include 'database.php';
+$sql = 'SELECT product_id, product_name, product_desc, product_image, unit_price FROM tbl_product';
+$resultset = mysqli_query($conn, $sql);
+?>
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="userproductstyles.css">
+		 <link rel="icon" type="image/x-icon" href="images/favicon.png">
+         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <style type="text/css">
+            a.nounderline{text-decoration: none;}
+        </style>
+        <title>DRIP 4 LESS - CLOTHING STORE</title>
+    </head>
+
+    <body>
+
+        <section id="headermain">
+
+        <span id="logo">
+        <img src="images/D4L-LOGO.jpg" alt="Store Logo" width="150px"  height="150px">
+        </span>
+        
+        <span id="spacer">
+            <p></p>
+        </span>
+        
+        <span id="header">
+            <h1>DRIP 4 LESS</h1>
+        </span>
+        
+        <span id="spacer">
+            <p></p>
+        </span>
+        <span id="profile">
+            <p>PROFILE</p>
+            <div class="ringring">
+			</div>
+            <br>
+            <?php
+                echo $_SESSION['USERNAME'];
+            ?>
+            <br>
+            <br>
+        </span>
+        </section>
+        <div id="add">
+            <p>View all products</p>
+        </div>
+        <div id="cartview">
+            <button><a href="viewcart.php">View Cart</a></button>
+        </div>
+        <?php
+        while( $record = mysqli_fetch_assoc($resultset) ) {
+            $id=$record['product_id'];
+			?>
+            
+            <div class="cardhovercard">
+                <div class="cardheader">               
+					<div class="avatar">
+                    <?php echo "<img src='image/".$record["product_image"]."' width=200px>"?>
+					</div>
+				 </div>
+                <div class="card-body info">
+                    <div class="name">
+                        <?php echo $record['product_name']; ?>
+                    </div>
+					<div class="desc"> <?php echo $record['product_desc']; ?></div>		
+                    <div class="price"><?php echo $record['unit_price']."/="; ?></div> 
+                    <button class="buy"><a href="cart.php?id=<?php echo $id?>">Add to cart</a></button>
+                </div>
+        </div>
+        <?php
+        }
+        ?>
+
+</body>
+</html>
