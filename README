@@ -8,4 +8,6 @@ Bugs:
 
 -Only 1 item can be added to cart at a time
 
+-Quantity of items does not reflect on DB
+
 -Payment integration not completed
