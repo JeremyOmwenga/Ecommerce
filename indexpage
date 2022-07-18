@@ -44,7 +44,7 @@
         <section id="navbar">
             <nav id="nav">
                 <a id="homenav" href="index.html" class="nounderline">HOME</a>
-                <a id="shopnav" href="allproducts.php" class="nounderline">SHOP</a>
+                <a id="shopnav" href="userproducts.php" class="nounderline">SHOP</a>
                 <a id="aboutnav" href="about.html" class="nounderline">ABOUT</a>
                 <a id="contactnav" href="contact.html" class="nounderline">CONTACT</a>
             </nav>
@@ -55,25 +55,25 @@
         </div>
 
         <section id="collectiontypes">
-            <a href="mensproducts.php" class="nounderline">
+            <a href="menscollection.php" class="nounderline">
             <div id="type">
                 <span><img class="typeimg" src="images/men.jpg" alt="Men's collection" width="150" height="150"></span>
                 <p>Men's collection</p>
             </div>
             </a>
-            <a href="womensproducts.php" class="nounderline">
+            <a href="womenscollection.php" class="nounderline">
             <div id="type">
                 <span><img class="typeimg" src="images/women.jpg" alt="Women's collection" width="150" height="150"></span>
                 <p>Women's collection</p>
             </div>
             </a>
-            <a href="childrensproducts.php" class="nounderline">
+            <a href="childrenscollection.php" class="nounderline">
             <div id="type">
                 <span><img class="typeimg" src="images/children.jpg" alt=" Children's collection" width="150" height="150"></span>
                 <p>Children's collection</p>
             </div>
             </a>
-            <a href="petsproducts.php" class="nounderline">
+            <a href="petscollection.php" class="nounderline">
             <div id="type">
                 <span><img class="typeimg" src="images/pets.jpg" alt="Pets collection" width="150" height="150"></span>
                 <p>Pets collection</p>
