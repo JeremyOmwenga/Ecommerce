@@ -1,0 +1,93 @@
+<?php
+session_start();
+include 'database.php';
+?>
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="allproductsstyles.css">
+		 <link rel="icon" type="image/x-icon" href="images/favicon.png">
+         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <style type="text/css">
+            a.nounderline{text-decoration: none;}
+        </style>
+        <title>DRIP 4 LESS - CLOTHING STORE</title>
+    </head>
+
+    <body>
+
+        <section id="headermain">
+
+        <span id="logo">
+        <img src="images/D4L-LOGO.jpg" alt="Store Logo" width="150px"  height="150px">
+        </span>
+        
+        <span id="spacer">
+            <p></p>
+        </span>
+        
+        <span id="header">
+            <h1>DRIP 4 LESS</h1>
+        </span>
+        
+        <span id="spacer">
+            <p></p>
+        </span>
+        <span id="profile">
+            <p>PROFILE</p>
+            <div class="ringring">
+			</div>
+            <br>
+            <?php
+                echo $_SESSION['USERNAME'];
+            ?>
+            <br>
+            <br>
+        </span>
+        <section class="table">
+            <div class="container">
+                <table>
+                <thead>
+				<tr>
+                <th>ID</th>
+                    <th>NAME</th>
+					<th>DESC</th>
+					<th>IMAGE</th>
+					<th>PRICE</th>
+					<th>QUANTITY</th>
+					<th>SUBCATEGORY ID</th>
+                    <th>EDIT</th>
+				</tr>
+			</thead>
+			<tbody>
+            <?php
+			$result = mysqli_query($conn,"SELECT * FROM tbl_product");
+				while($row = mysqli_fetch_array($result)) {
+			?>
+			<td><?php echo $row["product_id"]; ?></td>
+                <td><?php echo $row["product_name"]; ?></td>
+				<td><?php echo $row["product_desc"]; ?></td>
+                <td><?php echo "<img src='image/".$row["product_image"]."' width=100px>"?></td>
+                <td><?php echo $row["unit_price"]; ?></td>
+				<td><?php echo $row["qty"]; ?></td>
+                <td><?php echo $row["subcategory_id"]; ?></td>
+                    <?php
+                    $id=$row["product_id"];
+                    ?>
+                    <td>
+					<a href="edit-product.php?id=<?php echo $id?>" class="edit" data-toggle="modal">
+						<i class="material-icons update" data-toggle="tooltip" 
+						title="Edit" data-id="<?php echo $row["product_id"]; ?>"></i>
+					</a>
+					<a href="deleteproduct.php?id=<?php echo $id?>" class="delete" data-id="<?php echo $row["product_id"]; ?>" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" 
+						title="Delete"></i></a>
+				</td>
+			</tr>
+			<?php
+			}
+			?>
+			</tbody>
+		</table>
+
+
