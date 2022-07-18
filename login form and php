@@ -1,0 +1,113 @@
+<?php
+ob_start();
+session_start();
+?>
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="loginstyles.css">
+		 <link rel="icon" type="image/x-icon" href="images/favicon.png">
+        <style type="text/css">
+            a.nounderline{text-decoration: none;}
+        </style>
+        <title>DRIP 4 LESS - LOG IN</title>
+    </head>
+
+    <body>
+
+        <section id="headermain">
+
+        <span id="logo">
+        <img src="images/D4L-LOGO.jpg" alt="Store Logo" width="150px"  height="150px">
+        </span>
+        
+        <span id="spacer">
+            <p></p>
+        </span>
+        
+        <span id="header">
+            <h1>DRIP 4 LESS</h1>
+        </span>
+        
+        <span id="spacer">
+            <p></p>
+        </span>
+        
+        <span id="profile">
+            <p>PROFILE</p>
+			<div class="ringring">
+			</div>
+            <p>Not signed in</p>
+            <br>
+            <br>
+        </span>
+
+		</section>
+		<form action="loginprocess.php" method="post">
+  <div class="container">
+    <span><h1 id="login">Log in</h1></span>
+    <hr>
+
+    <label for="username"><b>Username</b></label>
+    <input type="text" placeholder="Enter Username" name="Uname" id="uname" required>
+	<br>
+	<br>
+	<br>
+    <label for="password"><b>Password</b></label>
+    <input type="password" placeholder="Enter Password" name="Pword" id="pass" required>
+	<br>
+	<br>
+	<br>
+	<button type="submit" class="registerbtn">Log in</button>
+	</div>
+</form>
+	</body>
+</html>
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+<?php
+$mysql = new mysqli("localhost","root","","ecommerce");
+$username = $_POST['Uname'];  
+$password = $_POST['Pword'];  
+      
+        //to prevent from mysqli injection  
+        $username = stripcslashes($username);  
+        $password = stripcslashes($password);  
+        $username = mysqli_real_escape_string($mysql, $username);  
+        $password = mysqli_real_escape_string($mysql, $password);  
+      
+        $sql = "select * from tbl_users where username = '$username' and password = '$password'";  
+        $results = mysqli_query($mysql, $sql);  
+        $row = mysqli_fetch_array($results, MYSQLI_ASSOC);  
+        $count = mysqli_num_rows($results);  
+          
+        if($count == 1){ 
+            session_start();
+            $id=session_id();
+            $ip=$_SERVER['REMOTE_ADDR'];
+            $_SESSION['USERID']=$row['user_id'];
+            $_SESSION['USERNAME']=$row['username'];
+            $_SESSION['USERTYPE']=$row['role'];
+            $uid=$_SESSION['USERID'];
+            $uname=$_SESSION['USERNAME'];
+            $sql = "INSERT INTO tbl_userlogins (user_id, user_ip) VALUES ('$uid','$ip') ";
+            mysqli_query($mysql, $sql);
+            if($_SESSION['USERTYPE']==1)
+            {
+                header("Location: http://localhost/ecommerce/adminpanel.php");
+
+            }
+            else
+            {
+                header("Location: http://localhost/ecommerce/userindex.php");
+            }
+               
+        }  
+        else{  
+            header("Location: http://localhost/ecommerce/login-alt.php");
+            exit();
+        }     
+        
+        
+        
+?>  
